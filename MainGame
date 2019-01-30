@@ -1,0 +1,94 @@
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Random;
+import java.util.Scanner;
+
+public class MainGame {
+	
+	Random rand = new Random();
+	
+	public static String winner(String playerChoice) {
+		Random rand = new Random();
+		//Randomly chooses 0,1,2
+		int computerChoice = rand.nextInt(3);
+
+		if ((computerChoice == 0 && playerChoice.equals("rock")) || (computerChoice == 1 && playerChoice.equals("paper")) || (computerChoice == 2 && playerChoice.equals("scissors"))) {
+			System.out.println();
+			System.out.println("It's a tie!");
+			return "tie";
+		}
+		else if ((computerChoice == 0 && playerChoice.equals("scissors")) || (computerChoice == 1 && playerChoice.equals("rock")) || (computerChoice == 2 && playerChoice.equals("paper"))){
+			System.out.println();
+			System.out.println("I win!");
+			return "computer";
+		}
+		else {
+			System.out.println();
+			System.out.println("You win!");
+			return "player";
+		}
+	}
+
+	public static void main(String[] args) {
+		
+		Scanner input = new Scanner(System.in);
+		System.out.println("Welcome to Rock-Paper-Scissors!");
+		
+		ArrayList<String> winners = new ArrayList<String>();
+		String playerChoice;
+		int numberOfGames = 0;
+		int playerWins = 0;
+		int computerWins = 0;
+		int ties = 0;
+		
+		try {
+			
+			System.out.print("How many games would you like to play the best of?: ");
+			numberOfGames =  input.nextInt();
+		} 
+		catch (InputMismatchException e) {
+			System.out.println("You should've used an integer!");
+			System.exit(0);
+		}
+		input.nextLine();
+		System.out.print("Alright let's get started. ");
+		
+		for (int gameNumber = 1; gameNumber <= numberOfGames; gameNumber++) {
+			
+			do {
+			System.out.printf("Would you like to be rock, paper, or scissors for game %d?", gameNumber);
+			playerChoice = input.nextLine();
+			} while( !playerChoice.equals("rock") && !playerChoice.equals("paper") && !playerChoice.equals("scissors"));
+			
+			winners.add(winner(playerChoice));
+			System.out.println();
+			
+		}		
+		for (int i = 0; i < winners.size(); i++) {
+			if (winners.get(i).equals("tie")){
+				ties++;
+				
+			}
+			else if (winners.get(i).equals("computer")) {
+				computerWins++;
+
+			}
+			else {
+				playerWins++;
+			}
+		}
+		if ((ties > playerWins && ties > computerWins) || (ties == playerWins && ties == computerWins)){
+			System.out.println("It's a tie, dang.");
+		}
+		else if (computerWins > ties && computerWins > playerWins) {
+			System.out.println("I win!!!");
+		}
+		else {
+			System.out.println("You win! Dang!");
+		}
+		
+		
+		
+	}
+
+}
